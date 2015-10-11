@@ -1,0 +1,54 @@
+/**
+ * hihoCoder week67
+2015-10-11 19:51:08
+xuchen
+**/
+#include "stdio.h"
+#include <cmath>
+#include <algorithm>
+#include <vector>
+using namespace std;
+
+const int N = 35;
+const int M = 20005;
+const double rate = 1.07;
+
+int f[N][M];
+int V[N];
+int c[N];
+
+
+int main()
+{
+	int n, m;
+	scanf("%d%d", &n, &m);
+	for(int i=1; i<=n; i++)
+	{
+		scanf("%d%d", &c[i], &V[i]);
+	}
+	int tmpcost;
+	double d;
+	int t;
+	int lvl;
+	for(int i=1; i<=n; i++)
+	{
+		for(int v=0; v<=m; v++)
+		{
+			f[i][v] = max(f[i-1][v], f[i][v]);
+			tmpcost = V[i];
+			d=tmpcost;
+			lvl = 1;
+			while(tmpcost <= v)
+			{
+				f[i][v] = max(f[i][v], f[i-1][v-tmpcost]+lvl*c[i]);
+				d*=rate;
+				t=(int)d;
+				d=t;
+				tmpcost+=t;
+				lvl++;
+			}
+		}
+	}
+	printf("%d\n", f[n][m]);
+	return 0;
+}
